@@ -1,0 +1,91 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const entries = await getCollection('study');
+const iconMap: Record<string, string> = {
+  Foundations: '🏗️',
+  'Triggers & Scheduling': '⚡',
+  'Job Control': '🔀',
+  'Environments & Deployment': '🚀',
+  'Secrets & Variables': '🔐',
+  'Reusable Workflows': '♻️',
+  'Custom Actions': '🧩',
+  'Self-Hosted Runners': '🖥️',
+  'Security & OIDC': '🛡️',
+  'Caching & Artifacts': '📦',
+  'Debugging & ACT': '🐛',
+  'Practice Exams': '📝',
+};
+
+const modules = entries
+  .filter((e) => !e.data.draft)
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+  .map((e) => ({
+    name: e.data.title,
+    slug: e.slug,
+    description: e.data.description,
+    icon: iconMap[e.data.title] || '📄',
+  }));
+---
+
+<BaseLayout title="Home" module="">
+  <div class="text-center py-12">
+    <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
+      GitHub Actions Study Hub
+    </h1>
+    <p class="text-gray-400 text-lg mb-10 max-w-2xl mx-auto">
+      Everything you need to clear the GitHub Actions certification in your first attempt.
+      Clear notes, multiple YAML examples, real-world use cases, hands-on exercises,
+      and flowcharts — built to study anywhere.
+    </p>
+
+    <div class="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+      <a
+        href="/study/foundations/"
+        class="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold transition shadow-lg shadow-blue-900/20"
+      >
+        Start with Foundations →
+      </a>
+      <a
+        href="/quizzes/"
+        class="px-8 py-3 border border-gray-600 hover:border-blue-500 text-white rounded-xl font-semibold transition"
+      >
+        Practice Quizzes →
+      </a>
+    </div>
+  </div>
+
+  <h2 class="text-2xl font-bold text-white mb-8 text-left">Study Modules</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {modules.map((m) => (
+      <div class="exam-card bg-gray-900/50 group">
+        <div class="flex items-center gap-3 p-6">
+          <span class="text-3xl">{m.icon}</span>
+          <div>
+            <h3 class="text-xl font-bold text-white group-hover:text-blue-400 transition">
+              {m.name}
+            </h3>
+            <p class="text-gray-400 text-sm mt-1">{m.description}</p>
+          </div>
+        </div>
+        <a
+          href={`/study/${m.slug}/`}
+          class="absolute inset-0 opacity-0"
+        ></a>
+      </div>
+    ))}
+  </div>
+
+  <div class="mt-16 p-8 border border-gray-700 rounded-xl bg-gray-900/30">
+    <h3 class="text-xl font-bold text-white mb-4">How to use this site</h3>
+    <ol class="list-decimal list-inside space-y-3 text-gray-300 text-sm">
+      <li>Work through each module in order — concepts build on each other.</li>
+      <li>Copy the YAML examples into your own repository and run them.</li>
+      <li>Complete the hands-on exercises at the end of every module.</li>
+      <li>Take the practice quizzes to test your readiness.</li>
+      <li>Review the flowcharts before the exam to visualize job flows.</li>
+    </ol>
+  </div>
+</BaseLayout>

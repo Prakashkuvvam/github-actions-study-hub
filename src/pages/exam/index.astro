@@ -1,0 +1,789 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Practice Exam" module="Practice Exams">
+  <div class="max-w-2xl mx-auto">
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-white mb-2">Practice Exam <span class="text-blue-400">⏱️</span></h1>
+      <p class="text-gray-400">
+        Simulate the real certification exam. 10 questions, 15 minutes, no notes.
+      </p>
+    </div>
+
+    <!-- Exam Controls (hidden during exam) -->
+    <div id="exam-setup" class="bg-gray-900/50 border border-gray-700 rounded-xl p-8 text-center mb-8">
+      <h2 class="text-xl font-bold text-white mb-4">Start Exam</h2>
+      <div class="flex flex-col sm:flex-row justify-center gap-4 mb-6">
+        <label class="flex items-center gap-3 text-gray-300">
+          <input type="number" id="question-count" min="5" max="30" value="10" class="w-20 bg-gray-800 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500" />
+          <span>Questions</span>
+        </label>
+        <label class="flex items-center gap-3 text-gray-300">
+          <input type="number" id="timer-minutes" min="1" max="60" value="15" class="w-20 bg-gray-800 border border-gray-600 rounded px-3 py-2 text-white focus:outline-none focus:border-blue-500" />
+          <span>Minutes</span>
+        </label>
+      </div>
+      <button
+        id="start-exam-btn"
+        class="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold transition shadow-lg shadow-blue-900/20"
+      >
+        Start Exam →
+      </button>
+    </div>
+
+    <!-- Exam Interface (hidden until started) -->
+    <div id="exam-ui" class="hidden">
+      <!-- Timer & Progress Header -->
+      <div class="flex items-center justify-between mb-6 p-4 bg-gray-900/50 border border-gray-700 rounded-xl">
+        <div class="flex items-center gap-3">
+          <span class="text-sm text-gray-400">Question</span>
+          <span id="question-counter" class="font-mono text-lg font-bold text-blue-400">1</span>
+          <span class="text-sm text-gray-400">of</span>
+          <span id="total-questions" class="font-mono text-lg font-bold text-white">10</span>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="text-sm text-gray-400">Time Left</span>
+          <span id="timer-display" class="font-mono text-lg font-bold text-red-500">15:00</span>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="w-full bg-gray-800 rounded-full h-2 mb-8">
+        <div id="progress-bar" class="bg-blue-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+      </div>
+
+      <!-- Question Card -->
+      <div id="question-card" class="exam-card bg-gray-900/50 min-h-[300px] flex flex-col">
+        <div id="question-loading" class="flex flex-col items-center justify-center py-20">
+          <p class="text-gray-400">Loading question...</p>
+        </div>
+        <div id="question-content" class="hidden p-8 flex-grow flex flex-col justify-center">
+          <h2 id="question-text" class="text-xl font-bold text-white mb-6 leading-relaxed"></h2>
+          <div id="options-container" class="space-y-3">
+            <!-- Options injected by JS -->
+          </div>
+          <div id="feedback" class="mt-6 p-4 rounded-lg hidden"></div>
+          <div id="explanation" class="mt-4 p-4 bg-gray-800/50 border border-gray-700 rounded-lg hidden text-sm text-gray-300">
+            <p class="font-bold text-blue-400 mb-2">Explanation:</p>
+            <p id="explanation-text"></p>
+          </div>
+        </div>
+        <div class="p-4 border-t border-gray-700 flex justify-between items-center">
+          <button
+            id="prev-btn"
+            class="px-6 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled
+          >
+            ← Previous
+          </button>
+          <button
+            id="next-btn"
+            class="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition"
+          >
+            Next →
+          </button>
+        </div>
+      </div>
+
+      <!-- Exam Results (hidden until finished) -->
+      <div id="results-ui" class="hidden bg-gray-900/50 border border-gray-700 rounded-xl p-8 text-center">
+        <h2 class="text-2xl font-bold text-white mb-4">Exam Complete!</h2>
+        <div class="text-6xl font-bold mb-4" id="score-display">0%</div>
+        <p id="score-text" class="text-gray-300 mb-6">0 out of 0 correct</p>
+        <div class="flex justify-center gap-4">
+          <button
+            id="review-btn"
+            class="px-8 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-xl font-semibold transition"
+          >
+            Review Answers
+          </button>
+          <button
+            id="restart-btn"
+            class="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold transition shadow-lg shadow-blue-900/20"
+          >
+            Retake Exam
+          </button>
+        </button>
+      </div>
+    </div>
+
+    <!-- Timer Warning -->
+    <div id="timer-warning" class="hidden fixed top-4 left-1/2 -translate-x-1/2 bg-red-900/90 border border-red-500 text-red-100 px-6 py-3 rounded-lg z-50 font-mono text-sm">
+      ⚠️ Time's up! Exam auto-submitted.
+    </div>
+  </div>
+
+  <script>
+    // Questions data (embedded for static deployment compatibility)
+    const QUESTIONS = [
+      {
+        id: 1,
+        module: 'Foundations',
+        question: 'Which of the following is the minimum valid GitHub Actions workflow structure?',
+        options: [
+          'name: CI\non: push\nsteps:\n  - run: echo hi',
+          'name: CI\non: push\njobs:\n  build:\n    runs-on: ubuntu-latest',
+          'name: CI\non: push\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v4',
+          'on: push\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - run: echo hi',
+        ],
+        correctIndex: 2,
+        explanation: 'A valid workflow requires `on:` (trigger) and `jobs:` with at least one job containing `runs-on` and `steps`. Options A and D are missing required keys. Option B is missing `steps`.',
+      },
+      {
+        id: 2,
+        module: 'Foundations',
+        question: 'Which runner label executes jobs on GitHub-hosted Ubuntu?',
+        options: ['self-hosted', 'ubuntu-latest', 'ubuntu-22.04', 'ubuntu'],
+        correctIndex: 1,
+        explanation: '`ubuntu-latest` is the standard GitHub-hosted runner label. `self-hosted` is your own machine. `ubuntu` alone is not a valid label.',
+      },
+      {
+        id: 3,
+        module: 'Foundations',
+        question: 'What does `actions/checkout@v4` do?',
+        options: [
+          'Installs Node.js on the runner',
+          'Checks out your repository code into the runner',
+          'Runs your test suite',
+          'Deploys to production',
+        ],
+        correctIndex: 1,
+        explanation: '`actions/checkout` clones your repository into the runner so subsequent steps can access your code.',
+      },
+      {
+        id: 4,
+        module: 'Foundations',
+        question: 'Which context contains information about the current workflow run, such as `run_id` and `run_attempt`?',
+        options: ['github', 'jobs', 'steps', 'runner'],
+        correctIndex: 0,
+        explanation: 'The `github` context contains information about the workflow run, event, repository, and runner. `github.run_id` and `github.run_attempt` are available here.',
+      },
+      {
+        id: 5,
+        module: 'Foundations',
+        question: 'Which file path is the standard location for a GitHub Actions workflow file?',
+        options: [
+          '.github/actions/workflow.yml',
+          '.github/workflows/ci.yml',
+          '.github/workflow/main.yml',
+          'actions/ci.yml',
+        ],
+        correctIndex: 1,
+        explanation: 'Workflow files live in `.github/workflows/` directory with `.yml` or `.yaml` extension.',
+      },
+      {
+        id: 6,
+        module: 'Triggers & Scheduling',
+        question: 'Which event fires when a pull request is merged into `main`?',
+        options: [
+          'push to `main`',
+          'pull_request with `types: [closed]` and `github.event.pull_request.merged == true`',
+          'pull_request with `types: [opened]`',
+          'workflow_run',
+        ],
+        correctIndex: 1,
+        explanation: '`pull_request` with `types: [closed]` fires when a PR is closed, but you must check `merged == true` because a PR can be closed without being merged.',
+      },
+      {
+        id: 7,
+        module: 'Triggers & Scheduling',
+        question: 'What is the minimum interval for a `schedule` trigger?',
+        options: ['1 minute', '5 minutes', '15 minutes', '1 hour'],
+        correctIndex: 2,
+        explanation: 'Scheduled workflows can run at most once every 15 minutes.',
+      },
+      {
+        id: 8,
+        module: 'Triggers & Scheduling',
+        question: '`workflow_dispatch` boolean inputs are passed to the workflow as:',
+        options: [
+          'JavaScript booleans (`true`/`false`)',
+          'Strings (`"true"`/`"false"`)',
+          'Integers (`1`/`0`)',
+          'Not supported',
+        ],
+        correctIndex: 1,
+        explanation: 'Boolean inputs from `workflow_dispatch` are passed as strings. Compare them with quotes: `github.event.inputs.debug == "true"`.',
+      },
+      {
+        id: 9,
+        module: 'Triggers & Scheduling',
+        question: 'You cannot use both `branches` and `branches-ignore` in the same `on.push` block. True or false?',
+        options: ['True', 'False'],
+        correctIndex: 0,
+        explanation: 'True. You must choose either inclusive (`branches`) or exclusive (`branches-ignore`) filtering, not both.',
+      },
+      {
+        id: 10,
+        module: 'Triggers & Scheduling',
+        question: 'Which cron expression runs a workflow every day at 02:00 UTC?',
+        options: ['0 2 * * *', '2 0 * * *', '0 0 * * 2', '*/2 * * * *'],
+        correctIndex: 0,
+        explanation: 'Cron format is `minute hour day month weekday`. `0 2 * * *` means minute 0, hour 2, every day.',
+      },
+      {
+        id: 11,
+        module: 'Job Control',
+        question: 'Jobs run in parallel unless:',
+        options: [
+          'They use `continue-on-error`',
+          'They use `needs:`',
+          'They use `if:`',
+          'They use `matrix:`',
+        ],
+        correctIndex: 1,
+        explanation: '`needs:` creates a dependency — the job waits for listed jobs to complete. Without `needs`, all jobs run in parallel.',
+      },
+      {
+        id: 12,
+        module: 'Job Control',
+        question: 'A matrix with `os: [ubuntu-latest, windows-latest]` and `node-version: [18.x, 20.x]` creates how many jobs?',
+        options: ['2', '3', '4', '8'],
+        correctIndex: 2,
+        explanation: '2 OS × 2 Node versions = 4 jobs running in parallel.',
+      },
+      {
+        id: 13,
+        module: 'Job Control',
+        question: 'How do you access a job output from a downstream job?',
+        options: [
+          '${{ steps.step-id.outputs.name }}',
+          '${{ needs.job-id.outputs.name }}',
+          '${{ jobs.job-id.outputs.name }}',
+          '${{ matrix.outputs.name }}',
+        ],
+        correctIndex: 1,
+        explanation: 'Job outputs are accessed via `needs.<job-id>.outputs.<name>`. Step outputs use `steps.<id>.outputs.<name>` but only within the same job.',
+      },
+      {
+        id: 14,
+        module: 'Job Control',
+        question: 'With `fail-fast: true` (default), if one matrix job fails, what happens to the others?',
+        options: [
+          'They continue running',
+          'They are cancelled',
+          'They wait for the failed job to be fixed',
+          'They run sequentially after',
+        ],
+        correctIndex: 1,
+        explanation: '`fail-fast: true` cancels all in-flight matrix jobs when one fails. Set to `false` if you want all combinations to report independently.',
+      },
+      {
+        id: 15,
+        module: 'Job Control',
+        question: 'Which expression runs a step regardless of whether the previous step failed?',
+        options: [
+          'if: success()',
+          'if: always()',
+          'if: failure()',
+          'if: cancelled()',
+        ],
+        correctIndex: 1,
+        explanation: '`always()` runs the step regardless of previous results. `success()` only runs if previous steps succeeded.',
+      },
+      {
+        id: 16,
+        module: 'Environments & Deployment',
+        question: 'When can a job with `environment: production` start running?',
+        options: [
+          'Immediately when the workflow starts',
+          'After all protection rules pass (reviewers, wait timer, branch policy)',
+          'After the previous job succeeds',
+          'When the environment is created in settings',
+        ],
+        correctIndex: 1,
+        explanation: 'Environment protection rules must clear before the job starts. The job pauses at the environment gate.',
+      },
+      {
+        id: 17,
+        module: 'Environments & Deployment',
+        question: 'Environment secrets are accessible to:',
+        options: [
+          'All jobs in the workflow',
+          'Only jobs referencing that environment',
+          'Only the job that created the secret',
+          'No jobs',
+        ],
+        correctIndex: 1,
+        explanation: 'Environment secrets are scoped — a job must use `environment: <name>` to access that environment\'s secrets.',
+      },
+      {
+        id: 18,
+        module: 'Environments & Deployment',
+        question: 'Which event is triggered when a deployment status changes?',
+        options: ['deployment', 'deployment_status', 'environment', 'release'],
+        correctIndex: 1,
+        explanation: '`deployment_status` fires when a deployment\'s status changes (pending, success, failure, inactive).',
+      },
+      {
+        id: 19,
+        module: 'Secrets & Variables',
+        question: 'Which is the best practice for passing a secret to a step?',
+        options: [
+          'run: echo ${{ secrets.MY_TOKEN }}',
+          'env: TOKEN: ${{ secrets.MY_TOKEN }} then run: echo $TOKEN',
+          'Store it in a variable (`vars.`)',
+          'Hardcode it in the YAML',
+        ],
+        correctIndex: 1,
+        explanation: 'Passing secrets via `env:` is the recommended best practice. Variables (`vars.`) are visible in logs — never for secrets.',
+      },
+      {
+        id: 20,
+        module: 'Secrets & Variables',
+        question: '`secrets.GITHUB_TOKEN` is:',
+        options: [
+          'A secret you must create manually',
+          'Automatically provided by GitHub for each workflow run',
+          'Only available in public repositories',
+          'The same as a personal access token',
+        ],
+        correctIndex: 1,
+        explanation: '`GITHUB_TOKEN` is automatically created by GitHub for each workflow run and expires when the run finishes.',
+      },
+      {
+        id: 21,
+        module: 'Secrets & Variables',
+        question: 'To use OIDC with AWS, which permission is required?',
+        options: [
+          'contents: write',
+          'id-token: write',
+          'deployments: write',
+          'packages: write',
+        ],
+        correctIndex: 1,
+        explanation: '`id-token: write` is required to request an OIDC token from GitHub\'s OIDC provider.',
+      },
+      {
+        id: 22,
+        module: 'Reusable Workflows',
+        question: 'A reusable workflow must declare which trigger?',
+        options: ['on: push', 'on: workflow_call', 'on: workflow_dispatch', 'on: repository_dispatch'],
+        correctIndex: 1,
+        explanation: '`on: workflow_call` is the required trigger for a workflow that can be called by another workflow.',
+      },
+      {
+        id: 23,
+        module: 'Reusable Workflows',
+        question: 'How do you pass all caller secrets to a reusable workflow?',
+        options: ['secrets: inherit', 'secrets: all', 'secrets: true', 'secrets: copy'],
+        correctIndex: 0,
+        explanation: '`secrets: inherit` passes all caller secrets to the reusable workflow. Individual mapping is preferred for least privilege.',
+      },
+      {
+        id: 24,
+        module: 'Custom Actions',
+        question: 'Which action type uses `using: composite`?',
+        options: ['Docker container', 'JavaScript', 'Composite', 'Reusable workflow'],
+        correctIndex: 2,
+        explanation: 'Composite actions use `using: composite` and group multiple steps into one reusable unit.',
+      },
+      {
+        id: 25,
+        module: 'Custom Actions',
+        question: 'Which action type runs inside a Docker container?',
+        options: ['Composite', 'JavaScript', 'Docker container', 'Reusable'],
+        correctIndex: 2,
+        explanation: 'Docker container actions use `using: docker` and run inside a container defined by a Dockerfile.',
+      },
+      {
+        id: 26,
+        module: 'Self-Hosted Runners',
+        question: 'You should NOT use self-hosted runners for:',
+        options: [
+          'Internal network access',
+          'Pull requests from public forks',
+          'Specialized hardware',
+          'Cost savings',
+        ],
+        correctIndex: 1,
+        explanation: 'Self-hosted runners run code with access to your environment. Running untrusted code from public forks is a security risk.',
+      },
+      {
+        id: 27,
+        module: 'Self-Hosted Runners',
+        question: '`--ephemeral` means the runner:',
+        options: [
+          'Runs only one job then is removed',
+          'Is deleted after the workflow finishes',
+          'Runs in the cloud only',
+          'Cannot use labels',
+        ],
+        correctIndex: 0,
+        explanation: 'Ephemeral runners are removed after a single job completes, ensuring a clean state.',
+      },
+      {
+        id: 28,
+        module: 'Security & OIDC',
+        question: 'Which is NOT a valid way to handle secrets?',
+        options: [
+          'Repository secrets',
+          'Organization secrets',
+          'Environment secrets',
+          'Plain text in the workflow YAML',
+        ],
+        correctIndex: 3,
+        explanation: 'Never hardcode secrets in workflow YAML. Use repository, organization, or environment secrets instead.',
+      },
+      {
+        id: 29,
+        module: 'Security & OIDC',
+        question: 'Artifact attestation requires which permissions?',
+        options: [
+          'contents: read',
+          'actions: write and id-token: write',
+          'deployments: write',
+          'packages: write',
+        ],
+        correctIndex: 1,
+        explanation: 'Attestation via `actions/attest-build-provenance` requires `actions: write` and `id-token: write`.',
+      },
+      {
+        id: 30,
+        module: 'Security & OIDC',
+        question: 'What does secret scanning with push protection do?',
+        options: [
+          'Deletes the repository',
+          'Blocks pushes containing secrets',
+          'Encrypts all secrets',
+          'Rotates secrets automatically',
+        ],
+        correctIndex: 1,
+        explanation: 'Push protection scans pushes for secrets and blocks them from entering the repository.',
+      },
+      {
+        id: 31,
+        module: 'Caching & Artifacts',
+        question: 'What is the difference between `key` and `restore-keys` in `actions/cache`?',
+        options: [
+          '`key` is required, `restore-keys` is optional fallback keys',
+          '`key` restores, `restore-keys` saves',
+          'They are the same thing',
+          '`restore-keys` is required, `key` is optional',
+        ],
+        correctIndex: 0,
+        explanation: '`key` is the exact cache key to save/restore. `restore-keys` are fallback prefix matches used when `key` doesn\'t match.',
+      },
+      {
+        id: 32,
+        module: 'Caching & Artifacts',
+        question: 'How long are GitHub Actions artifacts retained by default?',
+        options: ['7 days', '30 days', '90 days', '1 year'],
+        correctIndex: 2,
+        explanation: 'Artifacts are retained for 90 days by default (configurable via `retention-days`).',
+      },
+      {
+        id: 33,
+        module: 'Caching & Artifacts',
+        question: 'Caches are evicted after how many days of inactivity?',
+        options: ['7 days', '14 days', '30 days', '90 days'],
+        correctIndex: 0,
+        explanation: 'GitHub cache entries are evicted after 7 days of not being accessed.',
+      },
+      {
+        id: 34,
+        module: 'Debugging & ACT',
+        question: 'Which runs a step regardless of whether the previous step failed?',
+        options: [
+          'continue-on-error: true',
+          'if: always()',
+          'Both',
+          'Neither',
+        ],
+        correctIndex: 2,
+        explanation: '`continue-on-error: true` lets the job continue after a step failure. `if: always()` runs the step regardless of previous results. They serve complementary purposes.',
+      },
+      {
+        id: 35,
+        module: 'Debugging & ACT',
+        question: 'ACT is used for:',
+        options: [
+          'Running workflows locally with Docker',
+          'Measuring workflow performance',
+          'Validating YAML syntax',
+          'Creating GitHub repositories',
+        ],
+        correctIndex: 0,
+        explanation: 'ACT (by nektos) runs GitHub Actions workflows locally using Docker containers as runners.',
+      },
+      {
+        id: 36,
+        module: 'Debugging & ACT',
+        question: 'You see `resource not accessible by integration` in a job log. What is the likely cause?',
+        options: [
+          'Cache key doesn\'t match',
+          '`GITHUB_TOKEN` lacks required permissions',
+          'Wrong runner label',
+          'Missing `needs:` dependency',
+        ],
+        correctIndex: 1,
+        explanation: 'The `GITHUB_TOKEN` needs broader `permissions:` to access the requested resource.',
+      },
+    ];
+
+    // Exam State
+    let examQuestions = [];
+    let currentIndex = 0;
+    let answers = {}; // questionIndex -> selected option index
+    let timeLeft = 0;
+    let timerInterval = null;
+    let examStarted = false;
+    let examCompleted = false;
+
+    // DOM Elements
+    const examSetup = document.getElementById('exam-setup');
+    const examUI = document.getElementById('exam-ui');
+    const resultsUI = document.getElementById('results-ui');
+    const startBtn = document.getElementById('start-exam-btn');
+    const questionCountInput = document.getElementById('question-count');
+    const timerMinutesInput = document.getElementById('timer-minutes');
+    const questionCounter = document.getElementById('question-counter');
+    const totalQuestionsEl = document.getElementById('total-questions');
+    const timerDisplay = document.getElementById('timer-display');
+    const progressBar = document.getElementById('progress-bar');
+    const questionText = document.getElementById('question-text');
+    const optionsContainer = document.getElementById('options-container');
+    const feedback = document.getElementById('feedback');
+    const explanation = document.getElementById('explanation');
+    const explanationText = document.getElementById('explanation-text');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const scoreDisplay = document.getElementById('score-display');
+    const scoreText = document.getElementById('score-text');
+    const reviewBtn = document.getElementById('review-btn');
+    const restartBtn = document.getElementById('restart-btn');
+    const timerWarning = document.getElementById('timer-warning');
+
+    // Initialize
+    totalQuestionsEl.textContent = examQuestions.length || '10';
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function startExam() {
+      const count = parseInt(questionCountInput.value) || 10;
+      const minutes = parseInt(timerMinutesInput.value) || 15;
+
+      // Select random questions
+      examQuestions = shuffle([...QUESTIONS]).slice(0, count);
+      totalQuestionsEl.textContent = examQuestions.length;
+      currentIndex = 0;
+      answers = {};
+      examCompleted = false;
+      timeLeft = minutes * 60;
+
+      examSetup.classList.add('hidden');
+      examUI.classList.remove('hidden');
+      resultsUI.classList.add('hidden');
+      timerWarning.classList.add('hidden');
+
+      startTimer();
+      renderQuestion();
+    }
+
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          timerWarning.classList.remove('hidden');
+          submitExam();
+        }
+      }, 1000);
+    }
+
+    function updateTimerDisplay() {
+      const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+      const s = (timeLeft % 60).toString().padStart(2, '0');
+      timerDisplay.textContent = `${m}:${s}`;
+
+      if (timeLeft <= 60) {
+        timerDisplay.classList.add('text-red-500', 'animate-pulse');
+      }
+    }
+
+    function renderQuestion() {
+      if (examCompleted) return;
+
+      const q = examQuestions[currentIndex];
+      questionCounter.textContent = currentIndex + 1;
+      questionText.textContent = q.question;
+
+      // Update progress
+      const progress = ((currentIndex + 1) / examQuestions.length) * 100;
+      progressBar.style.width = `${progress}%`;
+
+      // Render options
+      optionsContainer.innerHTML = '';
+      q.options.forEach((opt, i) => {
+        const isSelected = answers[currentIndex] === i;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `
+          w-full text-left p-4 rounded-lg border transition
+          ${isSelected
+            ? 'bg-blue-600 border-blue-500 text-white'
+            : 'bg-gray-800 border-gray-700 text-gray-300 hover:border-blue-500 hover:bg-gray-700'
+        }`;
+        btn.innerHTML = `<span class="mr-3 font-mono text-blue-400">${String.fromCharCode(65 + i)}.</span> ${opt}`;
+        btn.onclick = () => selectOption(i);
+        optionsContainer.appendChild(btn);
+      });
+
+      // Navigation state
+      prevBtn.disabled = currentIndex === 0;
+      nextBtn.textContent = currentIndex === examQuestions.length - 1 ? 'Submit Exam' : 'Next →';
+
+      // Hide feedback/explanation for new question
+      feedback.classList.add('hidden');
+      explanation.classList.add('hidden');
+    }
+
+    function selectOption(index) {
+      answers[currentIndex] = index;
+      renderQuestion(); // Re-render to show selection state
+    }
+
+    function nextQuestion() {
+      if (currentIndex < examQuestions.length - 1) {
+        currentIndex++;
+        renderQuestion();
+      } else {
+        submitExam();
+      }
+    }
+
+    function prevQuestion() {
+      if (currentIndex > 0) {
+        currentIndex--;
+        renderQuestion();
+      }
+    }
+
+    function submitExam() {
+      examCompleted = true;
+      clearInterval(timerInterval);
+
+      examUI.classList.add('hidden');
+      timerWarning.classList.add('hidden');
+      resultsUI.classList.remove('hidden');
+
+      // Calculate score
+      let correct = 0;
+      examQuestions.forEach((q, i) => {
+        if (answers[i] === q.correctIndex) correct++;
+      });
+
+      const percent = Math.round((correct / examQuestions.length) * 100);
+      scoreDisplay.textContent = `${percent}%`;
+      scoreText.textContent = `${correct} out of ${examQuestions.length} correct`;
+
+      // Color code score
+      if (percent >= 80) {
+        scoreDisplay.className = 'text-6xl font-bold text-green-400 mb-4';
+      } else if (percent >= 60) {
+        scoreDisplay.className = 'text-6xl font-bold text-yellow-400 mb-4';
+      } else {
+        scoreDisplay.className = 'text-6xl font-bold text-red-400 mb-4';
+      }
+    }
+
+    function reviewAnswers() {
+      // Show all questions with correct/incorrect indicators
+      const container = optionsContainer;
+      container.innerHTML = '';
+      questionText.textContent = 'Review Your Answers';
+
+      // Build review HTML
+      let reviewHTML = '<div class="space-y-6">';
+      examQuestions.forEach((q, i) => {
+        const userAnswer = answers[i] !== undefined ? answers[i] : null;
+        const isCorrect = userAnswer === q.correctIndex;
+        reviewHTML += `
+          <div class="p-4 rounded-lg border ${isCorrect ? 'border-green-500 bg-green-900/20' : 'border-red-500 bg-red-900/20'}">
+            <div class="flex justify-between items-start mb-2">
+              <span class="font-bold text-white">${i + 1}. ${q.question}</span>
+              <span class="text-xs font-mono ${isCorrect ? 'text-green-400' : 'text-red-400'}">
+                ${isCorrect ? '✓ Correct' : '✗ Incorrect'}
+              </span>
+            </div>
+            <div class="text-sm text-gray-300 mb-3">
+              Your answer: ${userAnswer !== null ? q.options[userAnswer] : 'Not answered'}<br>
+              Correct answer: ${q.options[q.correctIndex]}
+            </div>
+            <div class="text-xs text-blue-300 bg-blue-900/30 p-3 rounded">
+              ${q.explanation}
+            </div>
+          </div>
+        `;
+      });
+      reviewHTML += '</div>';
+
+      // Replace question card with review
+      const questionCard = document.getElementById('question-card');
+      questionCard.innerHTML = `
+        <div class="p-8">
+          <h2 class="text-xl font-bold text-white mb-6">Answer Review</h2>
+          ${reviewHTML}
+          <div class="mt-8 flex justify-center">
+            <button id="back-to-results-btn" class="px-8 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold transition">
+              Back to Results
+            </button>
+          </button>
+        </div>
+      `;
+
+      document.getElementById('back-to-results-btn').onclick = () => {
+        resultsUI.classList.remove('hidden');
+        questionCard.innerHTML = `
+          <div id="question-loading" class="flex flex-col items-center justify-center py-20">
+            <p class="text-gray-400">Loading question...</p>
+          </div>
+          <div id="question-content" class="hidden p-8 flex-grow flex flex-col justify-center">
+            <h2 id="question-text" class="text-xl font-bold text-white mb-6 leading-relaxed"></h2>
+            <div id="options-container" class="space-y-3"></div>
+            <div id="feedback" class="mt-6 p-4 rounded-lg hidden"></div>
+            <div id="explanation" class="mt-4 p-4 bg-gray-800/50 border border-gray-700 rounded-lg hidden text-sm text-gray-300">
+              <p class="font-bold text-blue-400 mb-2">Explanation:</p>
+              <p id="explanation-text"></p>
+            </div>
+          </div>
+          <div class="p-4 border-t border-gray-700 flex justify-between items-center">
+            <button id="prev-btn" class="px-6 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+              ← Previous
+            </button>
+            <button id="next-btn" class="px-6 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg transition">
+              Next →
+            </button>
+          </div>
+        `;
+        // Re-bind buttons
+        const newPrev = document.getElementById('prev-btn');
+        const newNext = document.getElementById('next-btn');
+        newPrev.onclick = prevQuestion;
+        newNext.onclick = nextQuestion;
+      };
+    }
+
+    function retakeExam() {
+      resultsUI.classList.add('hidden');
+      examSetup.classList.remove('hidden');
+    }
+
+    // Event Listeners
+    startBtn.addEventListener('click', startExam);
+    prevBtn.addEventListener('click', prevQuestion);
+    nextBtn.addEventListener('click', nextQuestion);
+    restartBtn.addEventListener('click', retakeExam);
+    reviewBtn.addEventListener('click', reviewAnswers);
+  </script>
+</BaseLayout>

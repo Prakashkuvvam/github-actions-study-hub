@@ -1,0 +1,83 @@
+---
+interface Props {
+  modules: string[];
+}
+
+const { modules } = Astro.props;
+---
+
+<nav class="sticky top-0 z-50 bg-github-dark/90 backdrop-blur border-b border-gray-700">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-between h-16">
+      <a href="/" class="flex items-center gap-2 font-bold text-xl text-blue-400">
+        <span>⚡</span> <span>GA Study Hub</span>
+      </a>
+
+      <!-- Mobile menu button -->
+      <button
+        id="mobile-menu-btn"
+        class="md:hidden text-white hover:text-blue-400 p-2"
+        aria-label="Toggle menu"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"
+          />
+        </svg>
+      </button>
+
+      <div class="hidden md:flex items-center gap-6">
+        <a href="/" class="text-gray-300 hover:text-white transition">Home</a>
+        {modules.map((mod) => (
+          <a
+            href={`/study/${mod.toLowerCase().replace(/\s+/g, '-')}/`}
+            class="text-gray-300 hover:text-blue-400 transition text-sm font-medium"
+          >
+            {mod}
+          </a>
+        ))}
+        <a href="/quizzes/" class="text-gray-300 hover:text-blue-400 transition text-sm font-medium">Quizzes</a>
+        <a href="/exam/" class="text-gray-300 hover:text-blue-400 transition text-sm font-medium">Practice Exam</a>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div
+      id="mobile-menu"
+      class="hidden md:hidden border-t border-gray-700 bg-github-dark p-4"
+    >
+      <div class="flex flex-col gap-4">
+        <a href="/" class="block text-gray-300 hover:text-white py-2">Home</a>
+        {modules.map((mod) => (
+          <a
+            href={`/study/${mod.toLowerCase().replace(/\s+/g, '-')}/`}
+            class="block text-gray-300 hover:text-blue-400 py-2"
+          >
+            {mod}
+          </a>
+        ))}
+        <a href="/quizzes/" class="block text-gray-300 hover:text-blue-400 py-2">Quizzes</a>
+        <a href="/exam/" class="block text-gray-300 hover:text-blue-400 py-2">Practice Exam</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  if (btn && menu) {
+    btn.addEventListener('click', () => {
+      menu.classList.toggle('hidden');
+    });
+  }
+</script>
