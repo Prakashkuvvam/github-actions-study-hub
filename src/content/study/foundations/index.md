@@ -16,7 +16,7 @@ Everything in GitHub Actions starts with a **workflow** — an automated process
 
 ## 1. Workflow Anatomy
 
-A workflow file uses these top-level keys:
+A workflow file uses these top-level keys as below:
 
 | Key | Required | Purpose |
 |-----|----------|---------|
