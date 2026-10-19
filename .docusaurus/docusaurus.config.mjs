@@ -7,8 +7,9 @@ export default {
   "title": "GitHub Actions Study Hub",
   "tagline": "Clear the GitHub Actions certification in your first attempt",
   "favicon": "img/favicon.svg",
-  "url": "https://your-project.pages.dev",
+  "url": "https://github-actions-study-hub.pages.dev",
   "baseUrl": "/",
+  "trailingSlash": true,
   "onBrokenLinks": "throw",
   "onBrokenAnchors": "ignore",
   "i18n": {
@@ -19,13 +20,16 @@ export default {
     "path": "i18n",
     "localeConfigs": {}
   },
+  "themes": [
+    "@docusaurus/theme-mermaid"
+  ],
   "presets": [
     [
       "classic",
       {
         "docs": {
           "sidebarPath": "./sidebars.js",
-          "editUrl": "https://github.com/your-org/github-actions-study-hub/edit/main/",
+          "editUrl": "https://github.com/your-username/github-actions-study-hub/edit/main/",
           "routeBasePath": "/study"
         },
         "pages": {
@@ -65,7 +69,7 @@ export default {
           "position": "right"
         },
         {
-          "href": "https://github.com/your-org/github-actions-study-hub",
+          "href": "https://github.com/your-username/github-actions-study-hub",
           "label": "GitHub",
           "position": "right",
           "className": "header-github-link"
@@ -313,6 +317,13 @@ export default {
     "tableOfContents": {
       "minHeadingLevel": 2,
       "maxHeadingLevel": 3
+    },
+    "mermaid": {
+      "theme": {
+        "dark": "dark",
+        "light": "default"
+      },
+      "options": {}
     }
   },
   "baseUrlIssueBanner": true,
@@ -348,7 +359,6 @@ export default {
   ],
   "customFields": {},
   "plugins": [],
-  "themes": [],
   "scripts": [],
   "headTags": [],
   "stylesheets": [],

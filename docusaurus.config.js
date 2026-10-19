@@ -8,9 +8,10 @@ const config = {
   favicon: 'img/favicon.svg',
 
   // Set the production url of your site here
-  url: 'https://your-project.pages.dev/',
+  url: 'https://github-actions-study-hub.pages.dev/',
   // Set the /<baseUrl>/ pathname under which your site is served
   baseUrl: '/',
+  trailingSlash: true,
 
   // GitHub pages deployment config.
   onBrokenLinks: 'throw',
@@ -26,6 +27,8 @@ const config = {
     locales: ['en'],
   },
 
+  themes: ['@docusaurus/theme-mermaid'],
+
   presets: [
     [
       'classic',
@@ -33,7 +36,7 @@ const config = {
       ({
         docs: {
           sidebarPath: './sidebars.js',
-          editUrl: 'https://github.com/your-org/github-actions-study-hub/edit/main/',
+          editUrl: 'https://github.com/your-username/github-actions-study-hub/edit/main/',
           routeBasePath: '/study',
         },
         pages: {
@@ -77,7 +80,7 @@ const config = {
             position: 'right',
           },
           {
-            href: 'https://github.com/your-org/github-actions-study-hub',
+            href: 'https://github.com/your-username/github-actions-study-hub',
             label: 'GitHub',
             position: 'right',
             className: 'header-github-link',
