@@ -1,0 +1,30 @@
+{
+  "id": "custom-actions",
+  "title": "Custom Actions",
+  "description": "Docker container actions, JavaScript actions, composite actions, action inputs/outputs.",
+  "source": "@site/docs/custom-actions.md",
+  "sourceDirName": ".",
+  "slug": "/custom-actions",
+  "permalink": "/study/custom-actions",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/github-actions-study-hub/edit/main/docs/custom-actions.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 7,
+  "frontMatter": {
+    "id": "custom-actions",
+    "title": "Custom Actions",
+    "description": "Docker container actions, JavaScript actions, composite actions, action inputs/outputs.",
+    "sidebar_position": 7
+  },
+  "sidebar": "studySidebar",
+  "previous": {
+    "title": "Reusable Workflows",
+    "permalink": "/study/reusable-workflows"
+  },
+  "next": {
+    "title": "Self-Hosted Runners",
+    "permalink": "/study/self-hosted-runners"
+  }
+}

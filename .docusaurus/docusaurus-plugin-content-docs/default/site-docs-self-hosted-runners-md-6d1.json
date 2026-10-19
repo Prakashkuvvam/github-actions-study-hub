@@ -1,0 +1,30 @@
+{
+  "id": "self-hosted-runners",
+  "title": "Self-Hosted Runners",
+  "description": "Setup, labels, ephemeral vs persistent, scaling, runner groups, and security.",
+  "source": "@site/docs/self-hosted-runners.md",
+  "sourceDirName": ".",
+  "slug": "/self-hosted-runners",
+  "permalink": "/study/self-hosted-runners",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/github-actions-study-hub/edit/main/docs/self-hosted-runners.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 8,
+  "frontMatter": {
+    "id": "self-hosted-runners",
+    "title": "Self-Hosted Runners",
+    "description": "Setup, labels, ephemeral vs persistent, scaling, runner groups, and security.",
+    "sidebar_position": 8
+  },
+  "sidebar": "studySidebar",
+  "previous": {
+    "title": "Custom Actions",
+    "permalink": "/study/custom-actions"
+  },
+  "next": {
+    "title": "Security & OIDC",
+    "permalink": "/study/security-oidc"
+  }
+}

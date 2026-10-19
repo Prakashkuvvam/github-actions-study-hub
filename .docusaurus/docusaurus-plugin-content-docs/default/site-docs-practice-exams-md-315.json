@@ -1,0 +1,26 @@
+{
+  "id": "practice-exams",
+  "title": "Practice Exams",
+  "description": "Timed quizzes with answer explanations tied to the GitHub Actions certification syllabus.",
+  "source": "@site/docs/practice-exams.md",
+  "sourceDirName": ".",
+  "slug": "/practice-exams",
+  "permalink": "/study/practice-exams",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/github-actions-study-hub/edit/main/docs/practice-exams.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 12,
+  "frontMatter": {
+    "id": "practice-exams",
+    "title": "Practice Exams",
+    "description": "Timed quizzes with answer explanations tied to the GitHub Actions certification syllabus.",
+    "sidebar_position": 12
+  },
+  "sidebar": "studySidebar",
+  "previous": {
+    "title": "Debugging & ACT",
+    "permalink": "/study/debugging"
+  }
+}

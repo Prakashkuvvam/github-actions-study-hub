@@ -1,0 +1,30 @@
+{
+  "id": "security-oidc",
+  "title": "Security & OIDC",
+  "description": "permissions, OIDC federation, artifact attestation, secret scanning, and supply chain security.",
+  "source": "@site/docs/security-oidc.md",
+  "sourceDirName": ".",
+  "slug": "/security-oidc",
+  "permalink": "/study/security-oidc",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/github-actions-study-hub/edit/main/docs/security-oidc.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 9,
+  "frontMatter": {
+    "id": "security-oidc",
+    "title": "Security & OIDC",
+    "description": "permissions, OIDC federation, artifact attestation, secret scanning, and supply chain security.",
+    "sidebar_position": 9
+  },
+  "sidebar": "studySidebar",
+  "previous": {
+    "title": "Self-Hosted Runners",
+    "permalink": "/study/self-hosted-runners"
+  },
+  "next": {
+    "title": "Caching & Artifacts",
+    "permalink": "/study/caching-artifacts"
+  }
+}

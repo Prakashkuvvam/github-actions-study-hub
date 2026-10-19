@@ -1,0 +1,333 @@
+/**
+ * Custom CSS for GitHub Actions Study Hub
+ * Dark theme with blue accents
+ */
+
+/* Root variables for dark theme */
+:root {
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  --secondary-color: #7c3aed;
+  --accent-color: #06b6d4;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+  --bg-dark: #0f172a;
+  --bg-card: #1e293b;
+  --bg-border: #334155;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+}
+
+/* Override Docusaurus default dark theme colors */
+html[data-theme='dark'] {
+  --ifm-color-primary: #2563eb;
+  --ifm-color-primary-dark: #1d4ed8;
+  --ifm-color-primary-darker: #1e40af;
+  --ifm-color-primary-darkest: #1e3a8a;
+  --ifm-color-primary-light: #3b82f6;
+  --ifm-color-primary-lighter: #60a5fa;
+  --ifm-color-primary-lightest: #93c5fd;
+  --ifm-code-font-size: 0.9em;
+  --ifm-navbar-height: 64px;
+}
+
+.navbar__logo {
+  width: 40px;
+  height: 40px;
+}
+
+.navbar__title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.navbar__item.header-exam-link {
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  color: white !important;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.4);
+  transition: all 0.2s ease;
+}
+
+.navbar__item.header-exam-link:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.5);
+  color: white !important;
+}
+
+/* Sidebar styling */
+.sidebar__container {
+  background: #1e293b;
+  border-right: 1px solid #334155;
+}
+
+.sidebar__item {
+  font-size: 0.9rem;
+}
+
+.sidebar__link {
+  color: #94a3b8 !important;
+  transition: all 0.2s ease;
+}
+
+.sidebar__link:hover {
+  color: #60a5fa !important;
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 6px;
+}
+
+.sidebar__link--active {
+  color: #60a5fa !important;
+  background: rgba(30, 41, 59, 0.3);
+  border-left: 3px solid #2563eb;
+}
+
+/* Hero section */
+.hero {
+  background: linear-gradient(
+    135deg,
+    #0f172a 0%,
+    #1e293b 50%,
+    #0f172a 100%
+  );
+  border-bottom: 1px solid #334155;
+  padding: 6rem 0 5rem;
+  text-align: center;
+}
+
+.hero__title {
+  font-size: 3rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1.5rem;
+}
+
+.hero__subtitle {
+  font-size: 1.25rem;
+  color: #cbd5e1;
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.hero__buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Button styling */
+.button.primary {
+  background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+  border: none;
+  color: white;
+  padding: 0.875rem 1.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+}
+
+.button.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.4);
+  filter: brightness(1.1);
+}
+
+.button.secondary {
+  background: transparent;
+  border: 1px solid #334155;
+  color: #cbd5e1;
+  padding: 0.875rem 1.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.button.secondary:hover {
+  border-color: #60a5fa;
+  color: #60a5fa;
+}
+
+/* Docs styling */
+.theme-doc-markdown {
+  background: #0f172a;
+  color: #f8fafc;
+}
+
+.theme-doc-markdown h1,
+.theme-doc-markdown h2,
+.theme-doc-markdown h3,
+.theme-doc-markdown h4 {
+  color: #f8fafc;
+  font-weight: 700;
+}
+
+.theme-doc-markdown h2 {
+  border-bottom: 2px solid #334155;
+  padding-bottom: 0.5rem;
+  margin-top: 2.5rem;
+}
+
+.theme-doc-markdown h3 {
+  border-bottom: 1px solid #334155;
+  padding-bottom: 0.375rem;
+}
+
+.theme-doc-markdown code {
+  background: #1e293b;
+  color: #fbbf24;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-size: 0.875em;
+}
+
+.theme-doc-markdown pre {
+  background: #0f172a;
+  border: 1px solid #334155;
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.theme-doc-markdown pre code {
+  background: transparent;
+  padding: 0;
+  color: #f8fafc;
+}
+
+.theme-doc-markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+.theme-doc-markdown table th {
+  background: #1e293b;
+  color: #f8fafc;
+  border: 1px solid #334155;
+  padding: 0.75rem;
+  font-weight: 600;
+}
+
+.theme-doc-markdown table td {
+  border: 1px solid #334155;
+  padding: 0.75rem;
+  background: rgba(30, 41, 59, 0.3);
+}
+
+.theme-doc-markdown blockquote {
+  border-left: 4px solid #2563eb;
+  background: rgba(30, 41, 59, 0.4);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+}
+
+.theme-doc-markdown blockquote p {
+  color: #cbd5e1;
+}
+
+.theme-doc-markdown ul,
+.theme-doc-markdown ol {
+  color: #cbd5e1;
+}
+
+.theme-doc-markdown li {
+  margin-bottom: 0.75rem;
+}
+
+.theme-doc-markdown a {
+  color: #60a5fa;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.theme-doc-markdown a:hover {
+  color: #3b82f6;
+  border-bottom-color: #60a5fa;
+}
+
+/* Alert/Callout styling */
+.theme-doc-callout {
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.theme-doc-callout-theme-danger {
+  background: rgba(239, 68, 68, 0.1);
+  border-left: 4px solid #ef4444;
+}
+
+.theme-doc-callout-theme-info {
+  background: rgba(37, 99, 235, 0.1);
+  border-left: 4px solid #2563eb;
+}
+
+.theme-doc-callout-theme-tip {
+  background: rgba(16, 185, 129, 0.1);
+  border-left: 4px solid #10b981;
+}
+
+.theme-doc-callout-theme-warning {
+  background: rgba(245, 158, 11, 0.1);
+  border-left: 4px solid #f59e0b;
+}
+
+/* Mermaid diagram container */
+.mermaid {
+  background: #ffffff !important;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+}
+
+/* Footer */
+footer {
+  background: #0f172a !important;
+  border-top: 1px solid #334155;
+}
+
+/* Exam link styling */
+.header-exam-link {
+  position: relative;
+  overflow: hidden;
+}
+
+.header-exam-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  transition: 0.5s;
+}
+
+.header-exam-link:hover::before {
+  left: 100%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 996px) {
+  .hero__title {
+    font-size: 2.25rem;
+  }
+}

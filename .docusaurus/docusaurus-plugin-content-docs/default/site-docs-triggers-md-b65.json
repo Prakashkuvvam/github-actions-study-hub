@@ -1,0 +1,30 @@
+{
+  "id": "triggers",
+  "title": "Triggers & Scheduling",
+  "description": "Deep dive on events — push, pull_request, workflow_dispatch, schedule, repository_dispatch, workflow_run.",
+  "source": "@site/docs/triggers.md",
+  "sourceDirName": ".",
+  "slug": "/triggers",
+  "permalink": "/study/triggers",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/github-actions-study-hub/edit/main/docs/triggers.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 2,
+  "frontMatter": {
+    "id": "triggers",
+    "title": "Triggers & Scheduling",
+    "description": "Deep dive on events — push, pull_request, workflow_dispatch, schedule, repository_dispatch, workflow_run.",
+    "sidebar_position": 2
+  },
+  "sidebar": "studySidebar",
+  "previous": {
+    "title": "Foundations",
+    "permalink": "/study/foundations"
+  },
+  "next": {
+    "title": "Job Control",
+    "permalink": "/study/job-control"
+  }
+}

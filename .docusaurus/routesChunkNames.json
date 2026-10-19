@@ -1,0 +1,84 @@
+{
+  "/exam-7d8": {
+    "__comp": "4bad6d94",
+    "__context": {
+      "plugin": "a7456010"
+    },
+    "config": "5e9f5e1a"
+  },
+  "/quizzes-c0c": {
+    "__comp": "46e06168",
+    "__context": {
+      "plugin": "a7456010"
+    },
+    "config": "5e9f5e1a"
+  },
+  "/study-01f": {
+    "__comp": "5e95c892",
+    "__context": {
+      "plugin": "aba21aa0"
+    }
+  },
+  "/study-823": {
+    "__comp": "a7bd4aaa",
+    "__props": "b691be35"
+  },
+  "/study-cd6": {
+    "__comp": "a94703ab"
+  },
+  "/study/caching-artifacts-76c": {
+    "__comp": "17896441",
+    "content": "5d4e1d26"
+  },
+  "/study/custom-actions-701": {
+    "__comp": "17896441",
+    "content": "fdded0f4"
+  },
+  "/study/debugging-284": {
+    "__comp": "17896441",
+    "content": "2bccb399"
+  },
+  "/study/environments-f15": {
+    "__comp": "17896441",
+    "content": "f2beb3a0"
+  },
+  "/study/foundations-fa6": {
+    "__comp": "17896441",
+    "content": "b15cc1c6"
+  },
+  "/study/job-control-6d5": {
+    "__comp": "17896441",
+    "content": "aba4ab13"
+  },
+  "/study/practice-exams-c4a": {
+    "__comp": "17896441",
+    "content": "3157b689"
+  },
+  "/study/reusable-workflows-a95": {
+    "__comp": "17896441",
+    "content": "67f7a82f"
+  },
+  "/study/secrets-vars-792": {
+    "__comp": "17896441",
+    "content": "2d725f37"
+  },
+  "/study/security-oidc-ae0": {
+    "__comp": "17896441",
+    "content": "ca77e201"
+  },
+  "/study/self-hosted-runners-2d9": {
+    "__comp": "17896441",
+    "content": "6d107567"
+  },
+  "/study/triggers-fa1": {
+    "__comp": "17896441",
+    "content": "b65581e4"
+  },
+  "/-070": {
+    "__comp": "9dd8a0d2",
+    "__context": {
+      "plugin": "a7456010"
+    },
+    "config": "5e9f5e1a"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "id": "foundations",
+  "title": "Foundations",
+  "description": "Core concepts — workflows, events, jobs, steps, runners, and YAML syntax.",
+  "source": "@site/docs/foundations.md",
+  "sourceDirName": ".",
+  "slug": "/foundations",
+  "permalink": "/study/foundations",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/github-actions-study-hub/edit/main/docs/foundations.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 1,
+  "frontMatter": {
+    "id": "foundations",
+    "title": "Foundations",
+    "description": "Core concepts — workflows, events, jobs, steps, runners, and YAML syntax.",
+    "sidebar_position": 1
+  },
+  "sidebar": "studySidebar",
+  "next": {
+    "title": "Triggers & Scheduling",
+    "permalink": "/study/triggers"
+  }
+}

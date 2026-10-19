@@ -1,0 +1,30 @@
+{
+  "id": "environments",
+  "title": "Environments & Deployment",
+  "description": "Protection rules, required reviewers, deployment jobs, environment key, deployment status.",
+  "source": "@site/docs/environments.md",
+  "sourceDirName": ".",
+  "slug": "/environments",
+  "permalink": "/study/environments",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/github-actions-study-hub/edit/main/docs/environments.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 4,
+  "frontMatter": {
+    "id": "environments",
+    "title": "Environments & Deployment",
+    "description": "Protection rules, required reviewers, deployment jobs, environment key, deployment status.",
+    "sidebar_position": 4
+  },
+  "sidebar": "studySidebar",
+  "previous": {
+    "title": "Job Control",
+    "permalink": "/study/job-control"
+  },
+  "next": {
+    "title": "Secrets & Variables",
+    "permalink": "/study/secrets-vars"
+  }
+}

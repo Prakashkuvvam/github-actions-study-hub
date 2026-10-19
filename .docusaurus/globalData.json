@@ -1,0 +1,88 @@
+{
+  "docusaurus-plugin-content-docs": {
+    "default": {
+      "path": "/study",
+      "versions": [
+        {
+          "name": "current",
+          "label": "Next",
+          "isLast": true,
+          "path": "/study",
+          "mainDocId": "foundations",
+          "docs": [
+            {
+              "id": "caching-artifacts",
+              "path": "/study/caching-artifacts",
+              "sidebar": "studySidebar"
+            },
+            {
+              "id": "custom-actions",
+              "path": "/study/custom-actions",
+              "sidebar": "studySidebar"
+            },
+            {
+              "id": "debugging",
+              "path": "/study/debugging",
+              "sidebar": "studySidebar"
+            },
+            {
+              "id": "environments",
+              "path": "/study/environments",
+              "sidebar": "studySidebar"
+            },
+            {
+              "id": "foundations",
+              "path": "/study/foundations",
+              "sidebar": "studySidebar"
+            },
+            {
+              "id": "job-control",
+              "path": "/study/job-control",
+              "sidebar": "studySidebar"
+            },
+            {
+              "id": "practice-exams",
+              "path": "/study/practice-exams",
+              "sidebar": "studySidebar"
+            },
+            {
+              "id": "reusable-workflows",
+              "path": "/study/reusable-workflows",
+              "sidebar": "studySidebar"
+            },
+            {
+              "id": "secrets-vars",
+              "path": "/study/secrets-vars",
+              "sidebar": "studySidebar"
+            },
+            {
+              "id": "security-oidc",
+              "path": "/study/security-oidc",
+              "sidebar": "studySidebar"
+            },
+            {
+              "id": "self-hosted-runners",
+              "path": "/study/self-hosted-runners",
+              "sidebar": "studySidebar"
+            },
+            {
+              "id": "triggers",
+              "path": "/study/triggers",
+              "sidebar": "studySidebar"
+            }
+          ],
+          "draftIds": [],
+          "sidebars": {
+            "studySidebar": {
+              "link": {
+                "path": "/study/foundations",
+                "label": "foundations"
+              }
+            }
+          }
+        }
+      ],
+      "breadcrumbs": true
+    }
+  }
+}

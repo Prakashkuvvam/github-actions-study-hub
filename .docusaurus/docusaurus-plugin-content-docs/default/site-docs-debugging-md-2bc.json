@@ -1,0 +1,30 @@
+{
+  "id": "debugging",
+  "title": "Debugging & ACT",
+  "description": "Debug logging, step checksums, re-run failed jobs, ACT for local testing, and troubleshooting workflows.",
+  "source": "@site/docs/debugging.md",
+  "sourceDirName": ".",
+  "slug": "/debugging",
+  "permalink": "/study/debugging",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/github-actions-study-hub/edit/main/docs/debugging.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 11,
+  "frontMatter": {
+    "id": "debugging",
+    "title": "Debugging & ACT",
+    "description": "Debug logging, step checksums, re-run failed jobs, ACT for local testing, and troubleshooting workflows.",
+    "sidebar_position": 11
+  },
+  "sidebar": "studySidebar",
+  "previous": {
+    "title": "Caching & Artifacts",
+    "permalink": "/study/caching-artifacts"
+  },
+  "next": {
+    "title": "Practice Exams",
+    "permalink": "/study/practice-exams"
+  }
+}

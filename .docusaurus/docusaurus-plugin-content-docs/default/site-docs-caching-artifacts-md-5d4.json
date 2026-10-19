@@ -1,0 +1,30 @@
+{
+  "id": "caching-artifacts",
+  "title": "Caching & Artifacts",
+  "description": "actions/cache, upload-artifact, download-artifact, cache keys, restore-keys, and artifact retention.",
+  "source": "@site/docs/caching-artifacts.md",
+  "sourceDirName": ".",
+  "slug": "/caching-artifacts",
+  "permalink": "/study/caching-artifacts",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/github-actions-study-hub/edit/main/docs/caching-artifacts.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 10,
+  "frontMatter": {
+    "id": "caching-artifacts",
+    "title": "Caching & Artifacts",
+    "description": "actions/cache, upload-artifact, download-artifact, cache keys, restore-keys, and artifact retention.",
+    "sidebar_position": 10
+  },
+  "sidebar": "studySidebar",
+  "previous": {
+    "title": "Security & OIDC",
+    "permalink": "/study/security-oidc"
+  },
+  "next": {
+    "title": "Debugging & ACT",
+    "permalink": "/study/debugging"
+  }
+}

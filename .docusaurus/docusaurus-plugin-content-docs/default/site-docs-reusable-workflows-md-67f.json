@@ -1,0 +1,30 @@
+{
+  "id": "reusable-workflows",
+  "title": "Reusable Workflows",
+  "description": "workflow_call, reusable workflows, inputs, outputs, secrets, and calling workflows across repos.",
+  "source": "@site/docs/reusable-workflows.md",
+  "sourceDirName": ".",
+  "slug": "/reusable-workflows",
+  "permalink": "/study/reusable-workflows",
+  "draft": false,
+  "unlisted": false,
+  "editUrl": "https://github.com/your-org/github-actions-study-hub/edit/main/docs/reusable-workflows.md",
+  "tags": [],
+  "version": "current",
+  "sidebarPosition": 6,
+  "frontMatter": {
+    "id": "reusable-workflows",
+    "title": "Reusable Workflows",
+    "description": "workflow_call, reusable workflows, inputs, outputs, secrets, and calling workflows across repos.",
+    "sidebar_position": 6
+  },
+  "sidebar": "studySidebar",
+  "previous": {
+    "title": "Secrets & Variables",
+    "permalink": "/study/secrets-vars"
+  },
+  "next": {
+    "title": "Custom Actions",
+    "permalink": "/study/custom-actions"
+  }
+}
