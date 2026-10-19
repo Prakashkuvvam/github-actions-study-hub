@@ -1,19 +1,10 @@
 ---
-import { getCollection } from 'astro:content';
-import Nav from '../components/Nav.astro';
-import Footer from '../components/Footer.astro';
-
-const entries = await getCollection('study');
-const modules = [...new Set(entries.map((e) => e.data.module))];
-
 interface Props {
   title?: string;
   module?: string;
 }
 
 const { title = 'GitHub Actions Study Hub', module } = Astro.props;
-
-const currentModuleEntries = entries.filter((e) => e.data.module === module);
 ---
 
 <!DOCTYPE html>
@@ -63,13 +54,61 @@ const currentModuleEntries = entries.filter((e) => e.data.module === module);
       .exam-card:hover {
         @apply border-blue-500;
       }
+      /* Typography overrides for dark mode */
+      .prose-invert {
+        @apply text-gray-200;
+      }
+      .prose-invert h1,
+      .prose-invert h2,
+      .prose-invert h3,
+      .prose-invert h4 {
+        @apply text-white;
+      }
+      .prose-invert a {
+        @apply text-blue-400 underline;
+      }
+      .prose-invert code {
+        @apply bg-gray-800 text-yellow-100;
+      }
+      .prose-invert pre {
+        @apply bg-gray-900;
+      }
+      .prose-invert blockquote {
+        @apply border-l-2 border-blue-500 text-gray-400;
+      }
+      .prose-invert table {
+        @apply border border-gray-700;
+      }
+      .prose-invert th {
+        @apply bg-gray-800 text-white border border-gray-700;
+      }
+      .prose-invert td {
+        @apply border border-gray-700 bg-gray-900/50;
+      }
+      .prose-invert ul,
+      .prose-invert ol {
+        @apply text-gray-300;
+      }
+      .prose-invert li {
+        @apply mb-2;
+      }
+      .prose-invert hr {
+        @apply border-gray-700;
+      }
     </style>
   </head>
   <body class="antialiased min-h-screen flex flex-col">
-    <Nav modules={modules} />
     <main class="flex-grow container mx-auto px-4 py-8 max-w-5xl">
       <slot />
     </main>
-    <Footer />
+    <footer class="border-t border-gray-700 bg-github-dark py-8 mt-auto">
+      <div class="container mx-auto px-4">
+        <p class="text-center text-gray-500 text-sm">
+          &copy; {new Date().getFullYear()} GitHub Actions Study Hub. Built for certification prep.
+          <br />
+          Deployed on <a href="https://pages.cloudflare.com/" class="text-blue-400 hover:underline">Cloudflare Pages</a>.
+        </p>
+      </div>
+    </footer>
   </body>
 </html>

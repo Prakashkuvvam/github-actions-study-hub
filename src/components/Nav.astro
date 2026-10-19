@@ -1,9 +1,36 @@
 ---
 interface Props {
-  modules: string[];
+  entries: Array<{
+    slug: string;
+    data: {
+      title: string;
+      description: string;
+      module: string;
+      order: number;
+    };
+  }>;
 }
 
-const { modules } = Astro.props;
+const { entries } = Astro.props;
+
+const modules = entries
+  .filter((e) => !e.data.draft)
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+
+const iconMap: Record<string, string> = {
+  Foundations: '🏗️',
+  'Triggers & Scheduling': '⚡',
+  'Job Control': '🔀',
+  'Environments & Deployment': '🚀',
+  'Secrets & Variables': '🔐',
+  'Reusable Workflows': '♻️',
+  'Custom Actions': '🧩',
+  'Self-Hosted Runners': '🖥️',
+  'Security & OIDC': '🛡️',
+  'Caching & Artifacts': '📦',
+  'Debugging & ACT': '🐛',
+  'Practice Exams': '📝',
+};
 ---
 
 <nav class="sticky top-0 z-50 bg-github-dark/90 backdrop-blur border-b border-gray-700">
@@ -39,10 +66,10 @@ const { modules } = Astro.props;
         <a href="/" class="text-gray-300 hover:text-white transition">Home</a>
         {modules.map((mod) => (
           <a
-            href={`/study/${mod.toLowerCase().replace(/\s+/g, '-')}/`}
+            href={`/study/${mod.slug}/`}
             class="text-gray-300 hover:text-blue-400 transition text-sm font-medium"
           >
-            {mod}
+            {mod.data.title}
           </a>
         ))}
         <a href="/quizzes/" class="text-gray-300 hover:text-blue-400 transition text-sm font-medium">Quizzes</a>
@@ -59,10 +86,10 @@ const { modules } = Astro.props;
         <a href="/" class="block text-gray-300 hover:text-white py-2">Home</a>
         {modules.map((mod) => (
           <a
-            href={`/study/${mod.toLowerCase().replace(/\s+/g, '-')}/`}
+            href={`/study/${mod.slug}/`}
             class="block text-gray-300 hover:text-blue-400 py-2"
           >
-            {mod}
+            {mod.data.title}
           </a>
         ))}
         <a href="/quizzes/" class="block text-gray-300 hover:text-blue-400 py-2">Quizzes</a>

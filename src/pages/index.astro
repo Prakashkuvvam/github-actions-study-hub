@@ -1,8 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
 import { getCollection } from 'astro:content';
 
 const entries = await getCollection('study');
+const modules = entries
+  .filter((e) => !e.data.draft)
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+
 const iconMap: Record<string, string> = {
   Foundations: '🏗️',
   'Triggers & Scheduling': '⚡',
@@ -17,19 +22,10 @@ const iconMap: Record<string, string> = {
   'Debugging & ACT': '🐛',
   'Practice Exams': '📝',
 };
-
-const modules = entries
-  .filter((e) => !e.data.draft)
-  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
-  .map((e) => ({
-    name: e.data.title,
-    slug: e.slug,
-    description: e.data.description,
-    icon: iconMap[e.data.title] || '📄',
-  }));
 ---
 
 <BaseLayout title="Home" module="">
+  <Nav entries={entries} />
   <div class="text-center py-12">
     <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
       GitHub Actions Study Hub
@@ -48,10 +44,10 @@ const modules = entries
         Start with Foundations →
       </a>
       <a
-        href="/quizzes/"
+        href="/exam/"
         class="px-8 py-3 border border-gray-600 hover:border-blue-500 text-white rounded-xl font-semibold transition"
       >
-        Practice Quizzes →
+        Practice Exam →
       </a>
     </div>
   </div>
@@ -62,12 +58,12 @@ const modules = entries
     {modules.map((m) => (
       <div class="exam-card bg-gray-900/50 group">
         <div class="flex items-center gap-3 p-6">
-          <span class="text-3xl">{m.icon}</span>
+          <span class="text-3xl">{iconMap[m.data.title] || '📄'}</span>
           <div>
             <h3 class="text-xl font-bold text-white group-hover:text-blue-400 transition">
-              {m.name}
+              {m.data.title}
             </h3>
-            <p class="text-gray-400 text-sm mt-1">{m.description}</p>
+            <p class="text-gray-400 text-sm mt-1">{m.data.description}</p>
           </div>
         </div>
         <a
