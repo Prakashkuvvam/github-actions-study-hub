@@ -25,16 +25,16 @@ const { title = 'GitHub Actions Study Hub', module } = Astro.props;
     </script>
     <style>
       body {
-        @apply bg-github-dark text-white;
+        @apply bg-github-dark text-gray-200;
       }
       .mermaid {
-        @apply bg-white text-black p-4 rounded-lg my-6;
+        @apply bg-white text-black p-4 rounded-lg my-6 overflow-x-auto;
       }
       .mermaid .mermaidSVG {
         @apply bg-white;
       }
       code {
-        @apply bg-gray-800 text-yellow-100 px-1.5 py-0.5 rounded;
+        @apply bg-gray-800 text-yellow-100 px-1.5 py-0.5 rounded text-sm;
       }
       pre code {
         @apply block p-4 rounded-lg overflow-x-auto text-sm;
@@ -52,9 +52,9 @@ const { title = 'GitHub Actions Study Hub', module } = Astro.props;
         @apply border border-gray-700 rounded-xl p-6 transition cursor-pointer;
       }
       .exam-card:hover {
-        @apply border-blue-500;
+        @apply border-blue-500 bg-gray-800/50;
       }
-      /* Typography overrides for dark mode */
+      /* Dark mode typography */
       .prose-invert {
         @apply text-gray-200;
       }
@@ -71,34 +71,37 @@ const { title = 'GitHub Actions Study Hub', module } = Astro.props;
         @apply bg-gray-800 text-yellow-100;
       }
       .prose-invert pre {
-        @apply bg-gray-900;
+        @apply bg-gray-900 border border-gray-700;
       }
       .prose-invert blockquote {
-        @apply border-l-2 border-blue-500 text-gray-400;
+        @apply border-l-2 border-blue-500 bg-gray-800/50 text-gray-400 p-4 rounded-r;
       }
       .prose-invert table {
-        @apply border border-gray-700;
+        @apply border border-gray-700 w-full text-sm;
       }
       .prose-invert th {
-        @apply bg-gray-800 text-white border border-gray-700;
+        @apply bg-gray-800 text-white border border-gray-700 px-3 py-2;
       }
       .prose-invert td {
-        @apply border border-gray-700 bg-gray-900/50;
+        @apply border border-gray-700 bg-gray-900/50 px-3 py-2;
       }
       .prose-invert ul,
       .prose-invert ol {
-        @apply text-gray-300;
+        @apply text-gray-300 list-disc pl-5 space-y-2;
       }
       .prose-invert li {
         @apply mb-2;
       }
       .prose-invert hr {
-        @apply border-gray-700;
+        @apply border-gray-700 my-6;
+      }
+      .prose-invert > * + * {
+        @apply mt-6;
       }
     </style>
   </head>
   <body class="antialiased min-h-screen flex flex-col">
-    <main class="flex-grow container mx-auto px-4 py-8 max-w-5xl">
+    <main class="flex-grow container mx-auto px-4 py-6 max-w-5xl">
       <slot />
     </main>
     <footer class="border-t border-gray-700 bg-github-dark py-8 mt-auto">
